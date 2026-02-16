@@ -5,12 +5,12 @@ Automatic extraction and visualization of cadastral parcels from cadastre.gouv.f
 ## Requirements
 
 - **Node.js** >= 18
-- **npm** >= 9
+- **Bun** >= 1.0
 
 ## Installation
 
 ```bash
-npm install
+bun install
 ```
 
 ## Usage
@@ -18,45 +18,45 @@ npm install
 ### Level 1 — Draw a parcel on a provided PDF
 
 ```bash
-npx tsx src/level1.ts <pdf_path> <parcel_id>
+bunx tsx src/level1.ts <pdf_path> <parcel_id>
 ```
 
 Example:
 ```bash
-npx tsx src/level1.ts input/plan.pdf 33063000BW0124
+bunx tsx src/level1.ts input/plan.pdf 33063000BW0124
 ```
 
 ### Level 2 — Automatically download the PDF
 
 ```bash
-npx tsx src/level2.ts <parcel_id>
+bunx tsx src/level2.ts <parcel_id>
 ```
 
 Example:
 ```bash
-npx tsx src/level2.ts 33063000BW0124
+bunx tsx src/level2.ts 33063000BW0124
 ```
 
 ### Level 3 — Multiple adjacent parcels
 
 ```bash
-npx tsx src/level3.ts <id1> <id2> [id3...]
+bunx tsx src/level3.ts <id1> <id2> [id3...]
 ```
 
 Example:
 ```bash
-npx tsx src/level3.ts 33063000BW0124 33063000BW0247 33063000BW0320
+bunx tsx src/level3.ts 33063000BW0124 33063000BW0247 33063000BW0320
 ```
 
 ### Level 4 — Built / unbuilt area breakdown
 
 ```bash
-npx tsx src/level4.ts <id1> [id2...]
+bunx tsx src/level4.ts <id1> [id2...]
 ```
 
 Example:
 ```bash
-npx tsx src/level4.ts 33063000AI0002 33063000AI0019
+bunx tsx src/level4.ts 33063000AI0002 33063000AI0019
 ```
 
 Generated PDFs are saved in the `output/` directory.
@@ -66,8 +66,8 @@ Generated PDFs are saved in the `output/` directory.
 Unit tests are written with [Vitest](https://vitest.dev/).
 
 ```bash
-npm test              # run all tests once
-npm run test:watch    # run in watch mode
+bun run test              # run all tests once
+bun run test:watch        # run in watch mode
 ```
 
 Tests cover:
@@ -80,8 +80,8 @@ Tests cover:
 This project uses [Prettier](https://prettier.io/) for code formatting.
 
 ```bash
-npm run format          # format all TypeScript files
-npm run format:check    # check formatting without modifying files
+bun run format          # format all TypeScript files
+bun run format:check    # check formatting without modifying files
 ```
 
 ## Parcel identifier format
