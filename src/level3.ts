@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           level3.ts
+ * │ @path          src/level3.ts
+ * │ @description   Level 3: Draw multiple adjacent parcels on a single PDF
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { writeFile, mkdir } from "fs/promises";
 import { PDFDocument } from "pdf-lib";
 import type { Feature, MultiPolygon, Position } from "geojson";

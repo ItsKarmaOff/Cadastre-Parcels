@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           level4.ts
+ * │ @path          src/level4.ts
+ * │ @description   Level 4: Draw parcels with built/unbuilt area breakdown
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { writeFile, mkdir } from "fs/promises";
 import { PDFDocument } from "pdf-lib";
 import * as turf from "@turf/turf";

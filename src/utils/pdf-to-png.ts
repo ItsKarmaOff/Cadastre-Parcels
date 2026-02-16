@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           pdf-to-png.ts
+ * │ @path          src/utils/pdf-to-png.ts
+ * │ @description   PDF to PNG conversion utilities
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { pdf } from "pdf-to-img";
 import { writeFile } from "fs/promises";
 

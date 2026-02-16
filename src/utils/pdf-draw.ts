@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           pdf-draw.ts
+ * │ @path          src/utils/pdf-draw.ts
+ * │ @description   PDF drawing utilities
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { PDFPage, rgb, PDFFont, PDFDocument, StandardFonts } from "pdf-lib";
 import type { GeoToPdfTransform } from "./geo-transform.js";
 import type { Position } from "geojson";

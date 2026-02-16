@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           cadastre-api.ts
+ * │ @path          src/utils/cadastre-api.ts
+ * │ @description   Cadastre API utilities
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import axios, { AxiosError } from "axios";
 import { gunzipSync } from "zlib";
 import type {

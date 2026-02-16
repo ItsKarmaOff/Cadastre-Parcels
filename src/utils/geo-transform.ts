@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           geo-transform.ts
+ * │ @path          src/utils/geo-transform.ts
+ * │ @description   Geographic coordinate transformations and utilities
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import proj4 from "proj4";
 import * as turf from "@turf/turf";
 import type { BBox, Position } from "geojson";

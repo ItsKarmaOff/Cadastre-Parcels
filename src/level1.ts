@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           level1.ts
+ * │ @path          src/level1.ts
+ * │ @description   Level 1: Draw cadastral parcel overlay on PDF
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { readFile, writeFile, mkdir, access } from "fs/promises";
 import { PDFDocument } from "pdf-lib";
 import { fetchParcelGeometry, parseParcelId } from "./utils/cadastre-api.js";

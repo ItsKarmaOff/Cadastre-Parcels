@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           level2.ts
+ * │ @path          src/level2.ts
+ * │ @description   Level 2: Automatically download cadastral PDF and draw parcel
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { writeFile, mkdir } from "fs/promises";
 import { PDFDocument } from "pdf-lib";
 import {

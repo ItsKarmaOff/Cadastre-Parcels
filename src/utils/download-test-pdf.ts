@@ -1,3 +1,17 @@
+/**
+ * ┌───────────────────────────────────────────────────────────────────────────
+ * │ @author                    Christophe Vandevoir
+ * ├───────────────────────────────────────────────────────────────────────────
+ * │ @file           download-test-pdf.ts
+ * │ @path          src/utils/download-test-pdf.ts
+ * │ @description   Script to download a cadastral PDF for testing purposes
+ * │ @version       1.0.0
+ * │
+ * │ @email         christophe.vandevoir@epitech.eu
+ * │ @date          2026-02-16
+ * └───────────────────────────────────────────────────────────────────────────
+ */
+
 import { fetchParcelGeometry, downloadCadastralPDF } from "./cadastre-api.js";
 import { computeBbox, expandBbox } from "./geo-transform.js";
 import { writeFile } from "fs/promises";
