@@ -18,48 +18,75 @@ bun install
 ### Level 1 — Draw a parcel on a provided PDF
 
 ```bash
-bunx tsx src/level1.ts <pdf_path> <parcel_id>
+bun run level1 <pdf_path> <parcel_id>
 ```
 
 Example:
 ```bash
-bunx tsx src/level1.ts input/plan.pdf 33063000BW0124
+bun run level1 input/plan.pdf 33063000BW0124
 ```
 
 ### Level 2 — Automatically download the PDF
 
 ```bash
-bunx tsx src/level2.ts <parcel_id>
+bun run level2 <parcel_id>
 ```
 
 Example:
 ```bash
-bunx tsx src/level2.ts 33063000BW0124
+bun run level2 33063000BW0124
 ```
 
 ### Level 3 — Multiple adjacent parcels
 
 ```bash
-bunx tsx src/level3.ts <id1> <id2> [id3...]
+bun run level3 <id1> <id2> [id3...]
 ```
 
 Example:
 ```bash
-bunx tsx src/level3.ts 33063000BW0124 33063000BW0247 33063000BW0320
+bun run level3 33063000BW0124 33063000BW0247 33063000BW0320
 ```
 
 ### Level 4 — Built / unbuilt area breakdown
 
 ```bash
-bunx tsx src/level4.ts <id1> [id2...]
+bun run level4 <id1> [id2...]
 ```
 
 Example:
 ```bash
-bunx tsx src/level4.ts 33063000AI0002 33063000AI0019
+bun run level4 33063000AI0002 33063000AI0019
 ```
 
-Generated PDFs are saved in the `output/` directory.
+### Interactive mode
+
+An interactive CLI guides you through commune search, section selection, and parcel picking, then runs the level 4 analysis:
+
+```bash
+bun run interactive
+```
+
+The workflow is:
+1. Search for a commune by name (uses [geo.api.gouv.fr](https://geo.api.gouv.fr/))
+2. Select a commune from the results
+3. Pick a cadastral section
+4. Select one or more parcels (checkbox)
+5. Generate the annotated PDF with built/unbuilt area breakdown
+
+### Global CLI (optional)
+
+You can register the project as a global command:
+
+```bash
+bun link
+cadastre-parcelles --interactive
+cadastre-parcelles 33063000AI0002 33063000AI0019
+```
+
+### Output
+
+Generated PDFs and PNGs are saved in the `output/` directory.
 
 ## Tests
 
@@ -100,11 +127,14 @@ A parcel identifier is 14 characters long: `33063000BW0124`
 
 - **TypeScript** + tsx — language and runtime
 - **pdf-lib** — PDF manipulation and generation
+- **pdf-to-img** — PDF to PNG conversion
 - **axios** — HTTP calls to cadastre APIs
 - **proj4** — coordinate conversion (WGS84 ↔ Lambert 93)
 - **@turf/turf** — geometric operations (bbox, intersection, area computation)
+- **@inquirer/prompts** — interactive CLI prompts
 
 ## APIs used
 
 - [Cadastre Etalab](https://cadastre.data.gouv.fr/) — parcel and building geometries (GeoJSON)
 - [WMS Geoplatform](https://data.geopf.fr/wms-v/ows) — vector cadastral PDF plans
+- [geo.api.gouv.fr](https://geo.api.gouv.fr/) — commune search (interactive mode)
