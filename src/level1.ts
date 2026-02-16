@@ -7,6 +7,7 @@ import {
   expandBbox,
 } from "./utils/geo-transform.js";
 import { drawMultiPolygon, COLORS } from "./utils/pdf-draw.js";
+import { savePdfAsPng } from "./utils/pdf-to-png.js";
 
 /**
  * Level 1: Draws a cadastral parcel overlay on a user-provided PDF.
@@ -111,6 +112,9 @@ async function main(): Promise<void> {
   const modifiedPdf = await pdfDoc.save();
   await writeFile(outputPath, modifiedPdf);
   console.log(`PDF generated: ${outputPath}`);
+
+  const pngPath = await savePdfAsPng(modifiedPdf, outputPath);
+  console.log(`PNG generated: ${pngPath}`);
 }
 
 main().catch((error) => {

@@ -20,6 +20,7 @@ import {
   COLORS,
   type SurfaceData,
 } from "./utils/pdf-draw.js";
+import { savePdfAsPng } from "./utils/pdf-to-png.js";
 
 /**
  * Computes the built area of a parcel by intersecting it with building geometries.
@@ -191,6 +192,9 @@ async function main(): Promise<void> {
   const modifiedPdf = await pdfDoc.save();
   await writeFile(outputPath, modifiedPdf);
   console.log(`PDF generated: ${outputPath}`);
+
+  const pngPath = await savePdfAsPng(modifiedPdf, outputPath);
+  console.log(`PNG generated: ${pngPath}`);
 }
 
 main().catch((error) => {
