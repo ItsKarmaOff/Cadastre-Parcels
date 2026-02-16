@@ -27,7 +27,7 @@ vi.mock("axios", () => {
 });
 
 import axios from "axios";
-const mockedAxios = vi.mocked(axios);
+const mockedAxios = vi.mocked(axios, { deep: true });
 
 // Reset modules between tests to clear the parcellesCache
 beforeEach(() => {
