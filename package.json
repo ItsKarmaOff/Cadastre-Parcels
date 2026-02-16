@@ -3,17 +3,22 @@
   "version": "1.0.0",
   "description": "Automatic extraction and visualization of cadastral parcels",
   "type": "module",
+  "bin": {
+    "cadastre-parcelles": "./src/level4.ts"
+  },
   "scripts": {
     "level1": "tsx src/level1.ts",
     "level2": "tsx src/level2.ts",
     "level3": "tsx src/level3.ts",
     "level4": "tsx src/level4.ts",
+    "interactive": "tsx src/level4.ts -- --interactive",
     "test": "vitest run",
     "test:watch": "vitest",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\""
   },
   "dependencies": {
+    "@inquirer/prompts": "^8.2.1",
     "@turf/turf": "^7.2.0",
     "axios": "^1.7.9",
     "pdf-lib": "^1.17.1",

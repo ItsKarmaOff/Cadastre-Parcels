@@ -1,3 +1,4 @@
+#!/usr/bin/env bun
 /**
  * ┌───────────────────────────────────────────────────────────────────────────
  * │ @author                    Christophe Vandevoir
@@ -76,18 +77,149 @@ function computeBuiltArea(
   return { builtArea, buildingIntersections };
 }
 
-/**
- * Level 4: Draws parcels on a cadastral PDF with built/unbuilt area breakdown.
- * Includes a legend and a summary table showing surface area statistics.
- */
-async function main(): Promise<void> {
-  const parcelIds = process.argv.slice(2);
+// ---------------------------------------------------------------------------
+// Interactive mode: commune search → section → parcel selection
+// ---------------------------------------------------------------------------
 
-  if (parcelIds.length < 1) {
-    console.error("Usage: npx tsx src/level4.ts <id1> [id2...]");
+interface Commune {
+  nom: string;
+  code: string;
+  codeDepartement: string;
+  population: number;
+}
+
+interface CadastreParcel {
+  properties: {
+    id: string;
+    section: string;
+    numero: string;
+    contenance: number;
+  };
+}
+
+/**
+ * Prompts the user to search for a commune, pick a section, and select parcels.
+ * Returns the list of selected parcel identifiers.
+ */
+async function interactiveSelectParcels(): Promise<string[]> {
+  const { select, input, checkbox, confirm } =
+    await import("@inquirer/prompts");
+  const axios = (await import("axios")).default;
+
+  console.log("╔══════════════════════════════════════════════╗");
+  console.log("║       Cadastre & Parcelles - Interactive     ║");
+  console.log("╚══════════════════════════════════════════════╝\n");
+
+  // Step 1: Search for a commune
+  const communeQuery = await input({
+    message: "Search for a commune (name or postal code):",
+    validate: (v: string) =>
+      v.trim().length >= 2 || "Enter at least 2 characters",
+  });
+
+  console.log("Searching...");
+  const { data: communes } = await axios.get<Commune[]>(
+    "https://geo.api.gouv.fr/communes",
+    {
+      params: {
+        nom: communeQuery.trim(),
+        fields: "nom,code,codeDepartement,population",
+        boost: "population",
+        limit: 10,
+      },
+      timeout: 10000,
+    },
+  );
+
+  if (communes.length === 0) {
+    console.error(`No commune found for "${communeQuery.trim()}".`);
     process.exit(1);
   }
 
+  const codeCommune = await select({
+    message: "Select a commune:",
+    choices: communes.map((c) => ({
+      name: `${c.nom} (${c.codeDepartement}${c.code.slice(2)}) - ${c.population ?? "?"} hab.`,
+      value: c.code,
+    })),
+  });
+
+  const selectedCommune = communes.find((c) => c.code === codeCommune)!;
+  console.log(`\nSelected: ${selectedCommune.nom} (${codeCommune})`);
+
+  // Step 2: Fetch all parcels for the commune
+  console.log("Fetching parcels...");
+  const { data: parcelCollection } = await axios.get<{
+    features: CadastreParcel[];
+  }>(
+    `https://cadastre.data.gouv.fr/bundler/cadastre-etalab/communes/${codeCommune}/geojson/parcelles`,
+    { timeout: 60000 },
+  );
+  const allParcels = parcelCollection.features;
+  console.log(`${allParcels.length} parcels found.`);
+
+  if (allParcels.length === 0) {
+    console.error("No parcels found for this commune.");
+    process.exit(1);
+  }
+
+  // Step 3: Select a section
+  const sectionSet = new Set<string>();
+  for (const p of allParcels) sectionSet.add(p.properties.section);
+  const sections = [...sectionSet].sort();
+
+  const selectedSection = await select({
+    message: `Select a cadastral section (${sections.length} available):`,
+    choices: sections.map((s) => {
+      const count = allParcels.filter((p) => p.properties.section === s).length;
+      return { name: `Section ${s} (${count} parcels)`, value: s };
+    }),
+  });
+
+  // Step 4: Select parcels within the section
+  const sectionParcels = allParcels
+    .filter((p) => p.properties.section === selectedSection)
+    .sort(
+      (a, b) => parseInt(a.properties.numero) - parseInt(b.properties.numero),
+    );
+
+  const selectedParcelIds = await checkbox({
+    message: `Select parcels in section ${selectedSection} (space to toggle, enter to confirm):`,
+    choices: sectionParcels.map((p) => ({
+      name: `${p.properties.id} - ${p.properties.contenance} m²`,
+      value: p.properties.id,
+    })),
+    required: true,
+    validate: (selected: readonly { value: string }[]) => {
+      if (selected.length === 0) return "Select at least one parcel.";
+      return true;
+    },
+  });
+
+  console.log(`\nSelected ${selectedParcelIds.length} parcel(s):`);
+  for (const id of selectedParcelIds) console.log(`  - ${id}`);
+
+  const proceed = await confirm({
+    message: "Generate the cadastral PDF with area analysis?",
+    default: true,
+  });
+
+  if (!proceed) {
+    console.log("Aborted.");
+    process.exit(0);
+  }
+
+  return selectedParcelIds;
+}
+
+// ---------------------------------------------------------------------------
+// Core level 4 logic
+// ---------------------------------------------------------------------------
+
+/**
+ * Generates a cadastral PDF with built/unbuilt area breakdown for the given parcels.
+ */
+async function generateLevel4(parcelIds: string[]): Promise<void> {
   // Fetch all geometries in parallel
   console.log(`Fetching ${parcelIds.length} parcel(s)...`);
   const features: Feature<MultiPolygon>[] = await Promise.all(
@@ -211,7 +343,44 @@ async function main(): Promise<void> {
   console.log(`PNG generated: ${pngPath}`);
 }
 
+// ---------------------------------------------------------------------------
+// Entry point
+// ---------------------------------------------------------------------------
+
+/**
+ * Level 4: Draws parcels on a cadastral PDF with built/unbuilt area breakdown.
+ * Includes a legend and a summary table showing surface area statistics.
+ *
+ * Usage:
+ *   npx tsx src/level4.ts <id1> [id2...]        # Direct mode
+ *   npx tsx src/level4.ts --interactive          # Interactive mode
+ */
+async function main(): Promise<void> {
+  const args = process.argv.slice(2);
+  const isInteractive = args.includes("--interactive");
+
+  if (isInteractive) {
+    const parcelIds = await interactiveSelectParcels();
+    await generateLevel4(parcelIds);
+  } else {
+    const parcelIds = args.filter((a) => !a.startsWith("--"));
+
+    if (parcelIds.length < 1) {
+      console.error(
+        "Usage: npx tsx src/level4.ts <id1> [id2...]\n       npx tsx src/level4.ts --interactive",
+      );
+      process.exit(1);
+    }
+
+    await generateLevel4(parcelIds);
+  }
+}
+
 main().catch((error) => {
+  if (error instanceof Error && error.message.includes("User force closed")) {
+    console.log("\nAborted.");
+    process.exit(0);
+  }
   console.error("Error:", error instanceof Error ? error.message : error);
   process.exit(1);
 });
