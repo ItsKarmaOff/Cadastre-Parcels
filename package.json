@@ -8,6 +8,8 @@
     "level2": "tsx src/level2.ts",
     "level3": "tsx src/level3.ts",
     "level4": "tsx src/level4.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\""
   },
@@ -22,6 +24,7 @@
     "@types/proj4": "^2.5.5",
     "prettier": "^3.8.1",
     "tsx": "^4.19.0",
-    "typescript": "^5.7.0"
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.18"
   }
 }
