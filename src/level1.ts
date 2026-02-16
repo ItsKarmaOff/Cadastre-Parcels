@@ -18,9 +18,7 @@ async function main(): Promise<void> {
   const [pdfPath, parcelId, ...bboxArgs] = process.argv.slice(2);
 
   if (!pdfPath || !parcelId) {
-    console.error(
-      "Usage: npx tsx src/level1.ts <pdf_path> <parcel_id>",
-    );
+    console.error("Usage: npx tsx src/level1.ts <pdf_path> <parcel_id>");
     process.exit(1);
   }
 
