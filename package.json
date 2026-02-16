@@ -1,0 +1,27 @@
+{
+  "name": "cadastre-parcelles",
+  "version": "1.0.0",
+  "description": "Automatic extraction and visualization of cadastral parcels",
+  "type": "module",
+  "scripts": {
+    "level1": "tsx src/level1.ts",
+    "level2": "tsx src/level2.ts",
+    "level3": "tsx src/level3.ts",
+    "level4": "tsx src/level4.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@turf/turf": "^7.2.0",
+    "axios": "^1.7.9",
+    "pdf-lib": "^1.17.1",
+    "proj4": "^2.15.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "@types/proj4": "^2.5.5",
+    "prettier": "^3.8.1",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
