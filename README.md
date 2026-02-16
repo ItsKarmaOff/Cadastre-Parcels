@@ -56,6 +56,20 @@ npx tsx src/level4.ts 33063000AI0002 33063000AI0019
 
 Generated PDFs are saved in the `output/` directory.
 
+## Tests
+
+Unit tests are written with [Vitest](https://vitest.dev/).
+
+```bash
+npm test              # run all tests once
+npm run test:watch    # run in watch mode
+```
+
+Tests cover:
+- **geo-transform** — coordinate conversion, bounding box computation and expansion, geo-to-PDF transform
+- **cadastre-api** — parcel ID parsing, parcel/building fetching (mocked HTTP), PDF download validation
+- **pdf-draw** — color palette, polygon drawing, legend and summary table rendering
+
 ## Formatting
 
 This project uses [Prettier](https://prettier.io/) for code formatting.
