@@ -2,6 +2,11 @@
 
 Automatic extraction and visualization of cadastral parcels from cadastre.gouv.fr.
 
+## Requirements
+
+- **Node.js** >= 18
+- **npm** >= 9
+
 ## Installation
 
 ```bash
