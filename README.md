@@ -2,6 +2,34 @@
 
 Automatic extraction and visualization of cadastral parcels from cadastre.gouv.fr.
 
+## Preview
+
+![Level 4 — Built/unbuilt area breakdown with 2 parcels](output/level4_2parcelles.png)
+
+## Project structure
+
+```
+├── src/
+│   ├── level1.ts                  # Draw a parcel on a provided PDF
+│   ├── level2.ts                  # Auto-download cadastral plan + draw
+│   ├── level3.ts                  # Multiple parcels with legend
+│   ├── level4.ts                  # Built/unbuilt breakdown + interactive mode
+│   └── utils/
+│       ├── cadastre-api.ts        # API calls (parcels, buildings, WMS PDF)
+│       ├── geo-transform.ts       # Coordinate conversion & bounding box
+│       ├── pdf-draw.ts            # PDF drawing (polygons, legend, table)
+│       └── pdf-to-png.ts          # PDF to PNG export
+├── tests/
+│   ├── cadastre-api.test.ts
+│   ├── geo-transform.test.ts
+│   └── pdf-draw.test.ts
+├── input/                         # Sample input PDF for level 1
+├── output/                        # Generated PDFs and PNGs
+├── ressources/                    # Exercise brief
+├── package.json
+└── tsconfig.json
+```
+
 ## Requirements
 
 - **Node.js** >= 18
