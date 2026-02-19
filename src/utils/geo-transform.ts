@@ -13,7 +13,6 @@
  */
 
 import proj4 from "proj4";
-import * as turf from "@turf/turf";
 import type { BBox, Position } from "geojson";
 
 // Lambert 93 projection definition (EPSG:2154)
