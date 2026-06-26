@@ -26,7 +26,7 @@
     "proj4": "^2.15.0"
   },
   "devDependencies": {
-    "@types/node": "^25.2.3",
+    "@types/node": "^26.0.0",
     "@types/proj4": "^2.5.5",
     "prettier": "^3.8.1",
     "tsx": "^4.19.0",
